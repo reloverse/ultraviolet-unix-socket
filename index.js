@@ -6,13 +6,13 @@ import { createServer, IncomingMessage } from "http";
 import { uvPath } from "@titaniumnetwork-dev/ultraviolet";
 import { epoxyPath } from "@mercuryworkshop/epoxy-transport";
 import { baremuxPath } from "@mercuryworkshop/bare-mux/node";
-import { join, normalize, resolve, sep } from "path";
-import { hostname } from "os";
+import { normalize, resolve, sep } from "path";
 import { stat } from "fs/promises";
-import { createReadStream } from "fs";
+import { createReadStream, existsSync, unlinkSync } from "fs";
 import { lookup as getMimeType } from "mime-types";
 import wisp from "wisp-server-node";
 import { URL } from "url";
+import { argv, env } from "process";
 
 /**
  * reolve path w/o directory traversal
@@ -83,12 +83,14 @@ server.on("upgrade", (req, socket, head) => {
   else socket.end();
 });
 
-const port = parseInt(process.env.PORT || "8080", 10);
+const socketPath = argv[2] || env.SOCKET_PATH || "./uv.sock";
 
-server.listen(port, () => {
-  const { address, port, family } = server.address();
-  const host = family === "IPv6" ? `[${address}]` : address;
-  console.log(`Serving on http://${host}:${port}`);
+if (existsSync(socketPath)) {
+  unlinkSync(socketPath);
+}
+
+server.listen(socketPath, () => {
+  console.log(`Serving on unix://${resolve(socketPath)}`);
 });
 
 ["SIGINT", "SIGTERM"].forEach(signal =>
