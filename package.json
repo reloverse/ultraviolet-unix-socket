@@ -1,0 +1,27 @@
+{
+  "name": "ultraviolet-unix-socket",
+  "version": "1.0.0",
+  "description": "",
+  "homepage": "https://github.com/reloverse/ultraviolet-unix-socket#readme",
+  "bugs": {
+    "url": "https://github.com/reloverse/ultraviolet-unix-socket/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/reloverse/ultraviolet-unix-socket.git"
+  },
+  "license": "AGPL-3.0",
+  "author": "",
+  "type": "module",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "dependencies": {
+    "@mercuryworkshop/bare-mux": "^2.1.7",
+    "@mercuryworkshop/epoxy-transport": "^2.1.27",
+    "@titaniumnetwork-dev/ultraviolet": "^3.2.10",
+    "mime-types": "^3.0.1",
+    "wisp-server-node": "^1.1.7"
+  }
+}
